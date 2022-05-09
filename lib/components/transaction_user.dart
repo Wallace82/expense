@@ -25,6 +25,54 @@ class _TransactionUserState extends State<TransactionUser> {
         value: 345.50,
         date: DateTime.now()
     ),
+    Transaction(
+        id: '2',
+        title: 'Conta de agua',
+        value: 345.50,
+        date: DateTime.now()
+    ),
+    Transaction(
+        id: '2',
+        title: 'Conta de agua',
+        value: 345.50,
+        date: DateTime.now()
+    ),
+    Transaction(
+        id: '2',
+        title: 'Conta de agua',
+        value: 345.50,
+        date: DateTime.now()
+    ),
+    Transaction(
+        id: '2',
+        title: 'Conta de agua 3',
+        value: 345.50,
+        date: DateTime.now()
+    ),
+    Transaction(
+        id: '2',
+        title: 'Conta de agua 2',
+        value: 345.50,
+        date: DateTime.now()
+    ),
+    Transaction(
+        id: '2',
+        title: 'Conta de agua 1',
+        value: 345.50,
+        date: DateTime.now()
+    ),
+    Transaction(
+        id: '2',
+        title: 'Olá',
+        value: 345.50,
+        date: DateTime.now()
+    ),
+    Transaction(
+        id: '2',
+        title: 'Teste',
+        value: 345.50,
+        date: DateTime.now()
+    ),
   ];
 
   _addTransction(String title, double value){
@@ -42,11 +90,13 @@ class _TransactionUserState extends State<TransactionUser> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TransactionList(_listTrasaction),
-        TransactionForm(_addTransction),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          TransactionForm(_addTransction),
+          TransactionList(_listTrasaction),
+        ],
+      ),
     );
   }
 }
