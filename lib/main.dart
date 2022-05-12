@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:expense/components/chart.dart';
+import 'package:expense/components/nav-drawer.dart';
 import 'package:expense/components/transaction_form.dart';
 import 'package:expense/components/transaction_list.dart';
 import 'package:expense/models/transaction.dart';
@@ -88,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavDrawer(),
       appBar: AppBar(
         title: Text('Despesas Pessoais'),
         actions: [

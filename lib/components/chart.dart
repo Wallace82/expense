@@ -1,6 +1,7 @@
 import 'package:expense/components/chart_bar.dart';
 import 'package:expense/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class Chart extends StatelessWidget {
@@ -28,8 +29,6 @@ class Chart extends StatelessWidget {
         }
       }
 
-      print(DateFormat.E().format(weekDay)[0]);
-      print(totalSum);
       return {
         'day':DateFormat.E().format(weekDay)[0],
         'value':totalSum,
@@ -37,21 +36,36 @@ class Chart extends StatelessWidget {
     });
   }
 
+  double get _weeTotalValue{
+    return goupedTransaction.fold(0.0, (sum,tr){
+      return sum + (tr['value'] as double);
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     goupedTransaction;
+    print(_weeTotalValue);
     return Card(
       elevation: 7,
       margin: EdgeInsets.all(20),
-      child: Row(
-          children: goupedTransaction.map((tr) {
-                return ChartBar(
-                  label : tr['day'].toString(),
-                  value : double.tryParse(tr['value'].toString())??0.0,
-                  percentage: 0.3,
-                );
-              }).toList(),
-            ),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: goupedTransaction.map((tr) {
+                  return Flexible(
+                    fit: FlexFit.tight,
+                    child: ChartBar(
+                      label : tr['day'].toString(),
+                      value : double.tryParse(tr['value'].toString())??0.0,
+                      percentage:  (tr['value'] as double) / _weeTotalValue,
+                    ),
+                  );
+                }).toList(),
+              ),
+      ),
       );
   }
 }
