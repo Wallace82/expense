@@ -6,57 +6,72 @@ import 'package:expense/components/transaction_form.dart';
 import 'package:expense/components/transaction_list.dart';
 import 'package:expense/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
+    final ThemeData tema = ThemeData();
+
     return MaterialApp(
-        home: MyHomePage()
+      home: MyHomePage(),
+      theme: tema.copyWith(
+        colorScheme: tema.colorScheme.copyWith(
+          primary: Colors.purple,
+          secondary:Colors.amber
+        ),
+      textTheme: tema.textTheme.copyWith(
+        headline6: TextStyle(
+          fontFamily: 'OpenSans',
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [const Locale('pt', 'BR')],
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
-
-
 class _MyHomePageState extends State<MyHomePage> {
-
-
   final List<Transaction> _trasactions = [
     Transaction(
         id: '1',
         title: 'Compra de Sapatos 4',
         value: 200.0,
-        date: DateTime.now().subtract(Duration(days: 2))
-    ),
+        date: DateTime.now().subtract(Duration(days: 2))),
     Transaction(
         id: '12',
         title: 'Compra de Sapatos 4',
         value: 300.0,
-        date: DateTime.now().subtract(Duration(days: 3))
-    ),
+        date: DateTime.now().subtract(Duration(days: 3))),
     Transaction(
-        id: '2',
-        title: 'Conta de agua',
-        value: 345.50,
-        date: DateTime.now()
-    ),
-
+        id: '2', title: 'Conta de agua', value: 345.50, date: DateTime.now()),
   ];
 
-  List<Transaction> get _recentTransactions{
-    return _trasactions.where((tr){
+  List<Transaction> get _recentTransactions {
+    return _trasactions.where((tr) {
       return tr.date.isAfter(
-        DateTime.now().subtract(Duration(days:7)),
+        DateTime.now().subtract(Duration(days: 7)),
       );
     }).toList();
   }
@@ -70,20 +85,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     Navigator.of(context).pop();
-    
+
     setState(() {
       _trasactions.add(newTransaction);
     });
   }
 
-
-  _openTransactionFormModal(BuildContext context){
+  _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
-        builder: (_){
+        builder: (_) {
           return TransactionForm(_addTransction);
-        }
-    );
+        });
   }
 
   @override
@@ -94,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Despesas Pessoais'),
         actions: [
           IconButton(
-            onPressed: ()=>_openTransactionFormModal(context),
+            onPressed: () => _openTransactionFormModal(context),
             icon: Icon(Icons.add),
             color: Colors.white,
           )
@@ -102,37 +115,35 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            child: Chart(_recentTransactions),
-          ),
-          Column(
-            children: [
-              _trasactions.isEmpty? Column(
-                children: [
-                  SizedBox(height: 20),
-                  Text('Lista Vazia'),
-                  SizedBox(height: 20),
-                  Container(
-                    height: 300,
-                      child: Image.asset(
-                          'assets/images/img.png',
-                        fit:BoxFit.cover
-                      ),
-
-
-                  ),
-                ],
-              ) : TransactionList(_trasactions),
-            ],
-          ),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              child: Chart(_recentTransactions),
+            ),
+            Column(
+              children: [
+                _trasactions.isEmpty
+                    ? Column(
+                        children: [
+                          SizedBox(height: 20),
+                          Text('Lista Vazia'),
+                          SizedBox(height: 20),
+                          Container(
+                            height: 300,
+                            child: Image.asset('assets/images/img.png',
+                                fit: BoxFit.cover),
+                          ),
+                        ],
+                      )
+                    : TransactionList(_trasactions),
+              ],
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: ()=>_openTransactionFormModal(context),
+        onPressed: () => _openTransactionFormModal(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
