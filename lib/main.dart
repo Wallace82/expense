@@ -78,6 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  _deleteTransaction(String id){
+
+    setState(() {
+      _trasactions.removeWhere((tr) => tr.id == id);
+    });
+
+  }
+
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -122,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       )
-                    : TransactionList(_trasactions),
+                    : TransactionList(_trasactions,_deleteTransaction),
               ],
             ),
           ],
